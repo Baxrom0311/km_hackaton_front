@@ -1,5 +1,4 @@
 import { useReveal } from "@/hooks/useReveal";
-import { User } from "lucide-react";
 
 const team = [
   { name: "Team Lead", role: "AI Developer", initials: "TL" },

@@ -1,5 +1,5 @@
 import { Trophy, Play, FileText } from "lucide-react";
-import { ParticleBackground } from "./ParticleBackground";
+import { ParticleBackground } from "@/components/ParticleBackground";
 
 export const Hero = () => {
   const scrollTo = (id: string) => {
