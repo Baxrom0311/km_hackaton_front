@@ -4,6 +4,16 @@ export default {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
+  safelist: [
+    "text-primary", "text-secondary", "text-heart", "text-dna", "text-amber", "text-muted-foreground",
+    "bg-primary/15", "bg-secondary/15", "bg-heart/15", "bg-dna/15", "bg-amber/15",
+    "border-primary/30", "border-secondary/30", "border-heart/30", "border-dna/30", "border-amber/30",
+    "from-primary/15", "from-secondary/15", "from-heart/15", "from-dna/15", "from-amber/15",
+    "from-primary/12", "from-secondary/12", "from-heart/12", "from-dna/12", "from-amber/12",
+    "to-cyan-bright/8", "to-purple-light/8", "to-heart/8", "to-dna/8", "to-amber/8",
+    "to-cyan-bright/10", "to-purple-light/10", "to-heart/10", "to-dna/10",
+    "from-primary", "to-cyan-bright", "from-secondary", "to-purple-light", "from-heart", "to-heart/60", "from-dna", "to-dna/60", "from-amber", "to-amber/60",
+  ],
   theme: {
     container: { center: true, padding: "2rem", screens: { "2xl": "1400px" } },
     extend: {
