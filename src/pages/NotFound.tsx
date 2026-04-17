@@ -1,23 +1,24 @@
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { ArrowLeft } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const NotFound = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.error("404 Error: User attempted to access non-existent route:", location.pathname);
-  }, [location.pathname]);
-
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-muted-foreground">Oops! Page not found</p>
-        <a href="/" className="text-primary underline hover:text-primary/90">
-          Return to Home
-        </a>
+    <main className="section-shell flex min-h-screen items-center justify-center py-12">
+      <div className="glass-card max-w-xl p-8 text-center md:p-10">
+        <div className="text-xs font-semibold uppercase tracking-widest text-[#7b61ff]">404</div>
+        <h1 className="mt-5 text-4xl font-bold text-white md:text-5xl">Bu sahifa topilmadi.</h1>
+        <p className="mt-4 text-base leading-relaxed text-white/60">
+          Asosiy sahifaga qayting.
+        </p>
+        <Link
+          to="/"
+          className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#00f5d4] px-5 py-3 text-sm font-bold text-[#0a0f1e] transition hover:shadow-[0_0_30px_rgba(0,245,212,0.4)] hover:-translate-y-0.5"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Bosh sahifaga qaytish
+        </Link>
       </div>
-    </div>
+    </main>
   );
 };
 
