@@ -469,21 +469,21 @@ function AnimatedStat({ value, suffix = "", label, source, delay = 0 }: {
 /* ═══════════════════════ DATA ═══════════════════════ */
 
 const features = [
-  { icon: Brain, title: "Posture Control", description: "Webcam orqali bosh burchagi, yelka simmetriyasi va oldinga engashishni real vaqtda aniqlaydi. MediaPipe BlazePose Heavy modeli — 96.4% aniqlik." },
-  { icon: Eye, title: "Eye Tracking", description: "Yuz-kamera masofasini o'lchab, ko'z zo'riqishi xavfini baholaydi. Ekranga juda yaqin o'tirsangiz — darhol ogohlantiradi." },
-  { icon: Timer, title: "20-20-20 Qoidasi", description: "20 daqiqa uzluksiz ekranga qarashni aniqlaydi va '20 soniya 6 metrga qarang' deb eslatadi. Ilmiy asoslangan ko'z dam olish qoidasi." },
-  { icon: Clock, title: "Smart Break Reminder", description: "Uzluksiz o'tirish vaqtini kuzatadi. 25+ daqiqa o'tirsangiz — tanaffus eslatmasi. AI charchoq darajasini baholaydi." },
-  { icon: TrendingUp, title: "Predictive Forecast", description: "7 kunlik tarixdan 30 kunlik og'riq ehtimolini bashorat qiladi. Linear regression + risk trajectory. Bu bozorda yo'q — bizning asosiy innovatsiyamiz." },
+  { icon: Brain, title: "Posture Control", description: "Bosh burchagi, yelka simmetriyasi va oldinga engashishni real vaqtda aniqlaydi. 96.4% aniqlik." },
+  { icon: Eye, title: "Eye Tracking", description: "Ekranga juda yaqin o'tirsangiz — darhol ogohlantiradi. Ko'z zo'riqishi xavfini baholaydi." },
+  { icon: Timer, title: "20-20-20 Qoidasi", description: "20 daqiqa uzluksiz ekranga qarasangiz — '20 soniya uzoqqa qarang' deb eslatadi." },
+  { icon: Clock, title: "Smart Break", description: "25+ daqiqa uzluksiz o'tirsangiz — tanaffus eslatmasi beradi." },
+  { icon: TrendingUp, title: "Predictive Forecast", description: "7 kunlik tarixdan 30 kunlik og'riq ehtimolini bashorat qiladi. Bizning asosiy innovatsiyamiz." },
 ];
 
 const architectureSteps = [
-  { text: "Webcam (10 FPS)", icon: "📷" },
-  { text: "MediaPipe BlazePose Heavy → 33 ta landmark", icon: "🧠" },
-  { text: "5 ta signal: posture + sit + eye dist + gaze + dimming", icon: "📊" },
-  { text: "Temporal Filter (90-frame, 70% threshold)", icon: "⚡" },
-  { text: "Ergonomic Score (0-100) + Predictive Forecast", icon: "🎯" },
-  { text: "SQLite tarix → 7-kunlik trend → 30-kunlik prognoz", icon: "💾" },
-  { text: "Notification + Screen Dim + Visual Dashboard", icon: "🔔" },
+  { text: "Webcam orqali kadr olinadi", icon: "📷" },
+  { text: "AI model 33 ta tana nuqtasini aniqlaydi", icon: "🧠" },
+  { text: "5 ta signal tahlil qilinadi", icon: "📊" },
+  { text: "Soxta ogohlantirishlar filtrlanadi", icon: "⚡" },
+  { text: "Ergonomik ball va prognoz hisoblanadi", icon: "🎯" },
+  { text: "Tarix saqlanadi va trend ko'rsatiladi", icon: "💾" },
+  { text: "Ogohlantirish + Ekran xiraytirish", icon: "🔔" },
 ];
 
 const techStack = ["Python 3.11", "MediaPipe", "OpenCV", "SQLite", "Quartz", "pystray"];
@@ -515,6 +515,156 @@ const roadmapItems = [
   { time: "6 oy", label: "Maktab dashboard (o'qituvchi monitoring)" },
   { time: "12 oy", label: "Klinik validatsiya (Toshkent Tibbiyot Akademiyasi)" },
 ];
+
+/* ─── Feature illustrations (animated SVG per card) ─── */
+function FeatureIllustration({ index }: { index: number }) {
+  const [phase, setPhase] = useState(0);
+  useEffect(() => {
+    let id: number;
+    const go = () => { setPhase((p) => p + 0.02); id = requestAnimationFrame(go); };
+    id = requestAnimationFrame(go);
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  if (index === 0) {
+    // Posture Control — mini skeleton upper body with angle measurement
+    const headY = 20 + Math.sin(phase * 0.8) * 3;
+    const angle = Math.sin(phase * 0.5) * 12;
+    return (
+      <svg viewBox="0 0 160 120" className="h-full w-auto">
+        <defs><filter id="fg"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {/* Shoulder line */}
+        <line x1="55" y1="55" x2="105" y2="55" stroke="#00f5d4" strokeWidth="2" opacity="0.5" filter="url(#fg)" />
+        {/* Spine */}
+        <line x1="80" y1="55" x2="80" y2="100" stroke="#7b61ff" strokeWidth="2.5" opacity="0.5" filter="url(#fg)" />
+        {/* Head */}
+        <circle cx={80 + angle * 0.3} cy={headY} r="14" fill="none" stroke="#00f5d4" strokeWidth="2" opacity="0.7" filter="url(#fg)" />
+        {/* Neck */}
+        <line x1={80 + angle * 0.2} y1={headY + 14} x2="80" y2="55" stroke="#00f5d4" strokeWidth="1.5" opacity="0.5" />
+        {/* Angle arc */}
+        <path d={`M 80 40 A 15 15 0 0 ${angle > 0 ? 1 : 0} ${80 + angle * 0.6} ${40 + Math.abs(angle) * 0.1}`} fill="none" stroke="#ffaa00" strokeWidth="1.5" opacity="0.6" />
+        {/* Angle text */}
+        <text x="120" y="35" fill="#ffaa00" fontSize="10" fontFamily="monospace" opacity="0.7">{Math.abs(angle).toFixed(0)}&deg;</text>
+        {/* Shoulders dots */}
+        <circle cx="55" cy="55" r="4" fill="#00f5d4" opacity="0.6" />
+        <circle cx="105" cy="55" r="4" fill="#00f5d4" opacity="0.6" />
+      </svg>
+    );
+  }
+
+  if (index === 1) {
+    // Eye Tracking — face with distance measurement
+    const dist = 0.5 + Math.sin(phase * 0.6) * 0.25;
+    const faceX = 40 + dist * 60;
+    const color = dist > 0.5 ? "#00f5d4" : "#ff5050";
+    return (
+      <svg viewBox="0 0 160 120" className="h-full w-auto">
+        <defs><filter id="eg"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {/* Monitor */}
+        <rect x="10" y="25" width="30" height="22" rx="3" fill="none" stroke="#7b61ff" strokeWidth="1.5" opacity="0.5" />
+        <line x1="25" y1="47" x2="25" y2="55" stroke="#7b61ff" strokeWidth="1.5" opacity="0.3" />
+        <line x1="18" y1="55" x2="32" y2="55" stroke="#7b61ff" strokeWidth="1.5" opacity="0.3" />
+        {/* Face */}
+        <circle cx={faceX} cy="36" r="16" fill="none" stroke={color} strokeWidth="1.5" opacity="0.7" filter="url(#eg)" />
+        {/* Eyes */}
+        <circle cx={faceX - 5} cy="33" r="2" fill={color} opacity="0.8" />
+        <circle cx={faceX + 5} cy="33" r="2" fill={color} opacity="0.8" />
+        {/* Distance line */}
+        <line x1="40" y1="70" x2={faceX} y2="70" stroke={color} strokeWidth="1" strokeDasharray="3 2" opacity="0.5" />
+        <text x={(40 + faceX) / 2} y="82" fill={color} fontSize="9" fontFamily="monospace" textAnchor="middle" opacity="0.7">{(dist * 60).toFixed(0)} cm</text>
+        {/* Warning if too close */}
+        {dist < 0.4 && <text x="80" y="108" fill="#ff5050" fontSize="8" fontFamily="monospace" textAnchor="middle" opacity="0.8">Juda yaqin!</text>}
+      </svg>
+    );
+  }
+
+  if (index === 2) {
+    // 20-20-20 — timer circle
+    const progress = (phase * 0.3) % 1;
+    const circumference = 2 * Math.PI * 30;
+    const offset = circumference * (1 - progress);
+    const minutes = Math.floor(progress * 20);
+    return (
+      <svg viewBox="0 0 160 120" className="h-full w-auto">
+        <defs><filter id="tg"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {/* Timer ring */}
+        <circle cx="80" cy="55" r="30" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="5" />
+        <circle cx="80" cy="55" r="30" fill="none" stroke={progress > 0.9 ? "#ff5050" : "#00f5d4"} strokeWidth="5" strokeLinecap="round"
+          strokeDasharray={circumference} strokeDashoffset={offset} transform="rotate(-90 80 55)" filter="url(#tg)" />
+        {/* Time text */}
+        <text x="80" y="52" fill="white" fontSize="14" fontWeight="bold" fontFamily="monospace" textAnchor="middle" opacity="0.9">{minutes}</text>
+        <text x="80" y="64" fill="rgba(255,255,255,0.4)" fontSize="7" fontFamily="monospace" textAnchor="middle">daqiqa</text>
+        {/* 20-20-20 labels */}
+        <text x="30" y="108" fill="#00f5d4" fontSize="8" fontFamily="monospace" opacity="0.5">20 daq</text>
+        <text x="70" y="108" fill="#7b61ff" fontSize="8" fontFamily="monospace" opacity="0.5">20 son</text>
+        <text x="110" y="108" fill="#00f5d4" fontSize="8" fontFamily="monospace" opacity="0.5">6 metr</text>
+      </svg>
+    );
+  }
+
+  if (index === 3) {
+    // Smart Break — sitting time bar filling up
+    const fill = (phase * 0.15) % 1;
+    const mins = Math.floor(fill * 35);
+    const isAlert = fill > 0.7;
+    return (
+      <svg viewBox="0 0 160 120" className="h-full w-auto">
+        <defs><filter id="bg"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        {/* Chair icon */}
+        <path d="M 35 40 L 35 70 M 30 70 L 40 70 M 32 40 Q 35 35 38 40" fill="none" stroke="#7b61ff" strokeWidth="1.5" opacity="0.4" />
+        {/* Progress bar */}
+        <rect x="55" y="45" width="90" height="12" rx="6" fill="rgba(255,255,255,0.06)" />
+        <rect x="55" y="45" width={90 * fill} height="12" rx="6" fill={isAlert ? "#ff5050" : "#00f5d4"} opacity="0.6" filter="url(#bg)" />
+        {/* Time */}
+        <text x="100" y="80" fill="white" fontSize="16" fontWeight="bold" fontFamily="monospace" textAnchor="middle" opacity="0.8">{mins} min</text>
+        {/* Threshold line */}
+        <line x1={55 + 90 * 0.71} y1="42" x2={55 + 90 * 0.71} y2="60" stroke="#ffaa00" strokeWidth="1" strokeDasharray="2 2" opacity="0.5" />
+        <text x={55 + 90 * 0.71} y="38" fill="#ffaa00" fontSize="7" fontFamily="monospace" textAnchor="middle" opacity="0.5">25min</text>
+        {isAlert && <text x="100" y="100" fill="#ff5050" fontSize="9" fontFamily="monospace" textAnchor="middle" opacity="0.8">Tanaffus qiling!</text>}
+      </svg>
+    );
+  }
+
+  // index === 4: Predictive Forecast — trend line going up
+  const points: [number, number][] = [];
+  for (let i = 0; i < 7; i++) {
+    const x = 25 + i * 18;
+    const base = 30 + i * 8 + Math.sin(phase + i) * 4;
+    points.push([x, 100 - base]);
+  }
+  // Projection dashed
+  const lastY = points[6][1];
+  const projY = lastY - 15 + Math.sin(phase) * 3;
+
+  return (
+    <svg viewBox="0 0 160 120" className="h-full w-auto">
+      <defs>
+        <filter id="pg"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ff5050" stopOpacity="0.2" />
+          <stop offset="100%" stopColor="#ff5050" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      {/* Grid lines */}
+      {[30, 50, 70, 90].map((y) => (
+        <line key={y} x1="20" y1={y} x2="145" y2={y} stroke="rgba(255,255,255,0.04)" strokeWidth="0.5" />
+      ))}
+      {/* Area fill */}
+      <polygon points={`${points.map(([x, y]) => `${x},${y}`).join(" ")} 133,100 25,100`} fill="url(#chart-fill)" />
+      {/* Trend line */}
+      <polyline points={points.map(([x, y]) => `${x},${y}`).join(" ")} fill="none" stroke="#ff5050" strokeWidth="2" strokeLinejoin="round" filter="url(#pg)" />
+      {/* Projection */}
+      <line x1="133" y1={lastY} x2="150" y2={projY} stroke="#ff5050" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.6" />
+      {/* Points */}
+      {points.map(([x, y], i) => (
+        <circle key={i} cx={x} cy={y} r="3" fill="#ff5050" opacity={0.5 + Math.sin(phase + i) * 0.2} />
+      ))}
+      {/* Labels */}
+      <text x="80" y="16" fill="rgba(255,255,255,0.4)" fontSize="8" fontFamily="monospace" textAnchor="middle">Xavf darajasi</text>
+      <text x="148" y={projY - 6} fill="#ff5050" fontSize="8" fontFamily="monospace" opacity="0.7">30 kun</text>
+    </svg>
+  );
+}
 
 const Chk = () => <span className="comparison-check"><CheckCircle2 className="h-5 w-5" /></span>;
 const Crs = () => <span className="comparison-cross"><X className="h-5 w-5" /></span>;
@@ -635,21 +785,17 @@ const Index = () => {
           {features.map((f, i) => (
             <Reveal key={f.title} delay={i * 80}>
               <div className="glass-card-hover h-full relative overflow-hidden group">
-                {/* Decorative skeleton joint in corner */}
-                <div className="absolute -right-4 -top-4 h-24 w-24 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  <svg viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="30" fill="none" stroke="#00f5d4" strokeWidth="0.5" opacity="0.2" />
-                    <circle cx="50" cy="50" r="15" fill="none" stroke="#00f5d4" strokeWidth="0.5" opacity="0.3" />
-                    <circle cx="50" cy="50" r="4" fill="#00f5d4" opacity="0.4" />
-                    <line x1="20" y1="50" x2="80" y2="50" stroke="#00f5d4" strokeWidth="0.5" opacity="0.15" />
-                    <line x1="50" y1="20" x2="50" y2="80" stroke="#00f5d4" strokeWidth="0.5" opacity="0.15" />
-                  </svg>
+                {/* Top illustration area */}
+                <div className="mb-5 h-32 rounded-xl bg-gradient-to-br from-[#00f5d4]/5 to-[#7b61ff]/5 border border-white/5 flex items-center justify-center overflow-hidden relative">
+                  <FeatureIllustration index={i} />
                 </div>
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#00f5d4]/10">
-                  <f.icon className="h-6 w-6 text-[#00f5d4]" />
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#00f5d4]/10">
+                    <f.icon className="h-5 w-5 text-[#00f5d4]" />
+                  </div>
+                  <h3 className="text-lg font-bold text-white">{f.title}</h3>
                 </div>
-                <h3 className="text-lg font-bold text-white">{f.title}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/60">{f.description}</p>
+                <p className="text-sm leading-relaxed text-white/60">{f.description}</p>
               </div>
             </Reveal>
           ))}
@@ -658,48 +804,65 @@ const Index = () => {
 
       {/* ─── SCREEN DIMMING ─── */}
       <section className="relative section-shell py-20 md:py-28 z-10">
-        <div className="grid items-center gap-10 lg:grid-cols-2">
-          <Reveal>
-            <span className="inline-flex items-center gap-2 rounded-full border border-[#7b61ff]/30 bg-[#7b61ff]/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-[#7b61ff]">
-              <Monitor className="h-4 w-4" /> Innovatsiya
-            </span>
-            <h2 className="section-title mt-6 text-white">
-              Bukchaysangiz — <span className="gradient-text">ekran xira bo'ladi</span>
-            </h2>
-            <p className="mt-5 text-base leading-relaxed text-white/60">
-              Oddiy notification'dan samaraliroq. Noto'g'ri posture aniqlanganda ekran avtomatik xiraytiriladi —
-              foydalanuvchi majburan holatini tuzatadi. To'g'ri o'tirganda — ekran tiklanadi.
-              macOS CoreGraphics API, Windows GDI32, Linux xrandr orqali ishlaydi.
-            </p>
-            {/* Mini good/bad spines */}
-            <div className="mt-8 flex items-center gap-8">
-              <div className="flex items-center gap-3">
-                <MiniSpine bad={true} className="h-16 w-8" />
-                <div>
-                  <div className="text-xs font-bold text-[#ff5050]">Egilgan</div>
-                  <div className="text-xs text-white/30">Ekran xira</div>
+        <Reveal className="text-center mb-14">
+          <span className="inline-flex items-center gap-2 rounded-full border border-[#7b61ff]/30 bg-[#7b61ff]/10 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-[#7b61ff]">
+            <Monitor className="h-4 w-4" /> Innovatsiya
+          </span>
+          <h2 className="section-title mt-6 text-white">
+            Bukchaysangiz — <span className="gradient-text">ekran xira bo'ladi</span>
+          </h2>
+          <p className="mt-4 text-base text-white/50 max-w-xl mx-auto">
+            Oddiy bildirishnomadan samaraliroq. Foydalanuvchi majburan holatini tuzatadi.
+          </p>
+        </Reveal>
+
+        {/* Visual: 2 cards side by side — bad vs good */}
+        <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
+          <Reveal delay={100}>
+            <div className="glass-card overflow-hidden p-0 border-red-500/20">
+              {/* Dimmed screen mockup */}
+              <div className="relative">
+                <img src={screenDimming} alt="Ekran xira holat" className="w-full object-cover brightness-[0.35]" />
+                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                  <div className="text-center">
+                    <MiniSpine bad={true} className="mx-auto h-28 w-14" />
+                    <p className="mt-2 text-sm font-bold text-red-400">Noto'g'ri posture</p>
+                  </div>
                 </div>
               </div>
-              <ArrowRight className="h-5 w-5 text-white/20" />
-              <div className="flex items-center gap-3">
-                <MiniSpine bad={false} className="h-16 w-8" />
-                <div>
-                  <div className="text-xs font-bold text-[#00f5d4]">To'g'ri</div>
-                  <div className="text-xs text-white/30">Ekran tiklandi</div>
-                </div>
+              <div className="px-5 py-4 text-center border-t border-white/5">
+                <p className="text-sm text-red-400 font-semibold">Ekran xiraydi</p>
+                <p className="text-xs text-white/30 mt-1">Ishlashni davom ettirish qiyin</p>
               </div>
             </div>
           </Reveal>
-          <Reveal delay={150}>
-            <div className="glass-card overflow-hidden p-2 relative">
-              <img src={screenDimming} alt="Screen dimming demo" className="w-full rounded-xl object-cover" />
-              {/* Scan overlay effect */}
-              <div className="absolute inset-0 pointer-events-none rounded-xl overflow-hidden">
-                <div className="absolute inset-x-0 h-px bg-gradient-to-r from-transparent via-[#00f5d4]/40 to-transparent animate-scan" />
+
+          <Reveal delay={200}>
+            <div className="glass-card overflow-hidden p-0 border-[#00f5d4]/20">
+              {/* Bright screen mockup */}
+              <div className="relative">
+                <img src={demoGood} alt="Ekran yorug' holat" className="w-full object-cover brightness-110" />
+                <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                  <div className="text-center">
+                    <MiniSpine bad={false} className="mx-auto h-28 w-14" />
+                    <p className="mt-2 text-sm font-bold text-[#00f5d4]">To'g'ri posture</p>
+                  </div>
+                </div>
+              </div>
+              <div className="px-5 py-4 text-center border-t border-white/5">
+                <p className="text-sm text-[#00f5d4] font-semibold">Ekran tiklandi</p>
+                <p className="text-xs text-white/30 mt-1">Yorug'lik qaytadi</p>
               </div>
             </div>
           </Reveal>
         </div>
+
+        {/* Arrow between */}
+        <Reveal delay={150}>
+          <div className="flex items-center justify-center my-4 md:hidden">
+            <ArrowDown className="h-6 w-6 text-white/20" />
+          </div>
+        </Reveal>
       </section>
 
       {/* ─── ARCHITECTURE ─── */}
