@@ -9,7 +9,8 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Space Grotesk', 'Inter', 'sans-serif'],
+        display: ['Orbitron', 'Inter', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -26,7 +27,12 @@ export default {
         popover: { DEFAULT: "hsl(var(--popover))", foreground: "hsl(var(--popover-foreground))" },
         card: { DEFAULT: "hsl(var(--card))", foreground: "hsl(var(--card-foreground))" },
         cyan: "hsl(var(--cyan))",
+        "cyan-bright": "hsl(var(--cyan-bright))",
         purple: "hsl(var(--purple))",
+        "purple-light": "hsl(var(--purple-light))",
+        heart: "hsl(var(--heart))",
+        dna: "hsl(var(--dna))",
+        amber: "hsl(var(--amber))",
         navy: "hsl(var(--navy))",
       },
       borderRadius: {

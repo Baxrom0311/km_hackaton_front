@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Orbitron:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,59 +6,68 @@
 
 @layer base {
   :root {
-    /* PostureAI dark theme — deep navy to dark purple */
-    --background: 226 47% 7%;
+    /* PostureAI — km.edu.uz AI Health palette */
+    --background: 222 47% 5%;          /* #030712 */
     --foreground: 210 40% 98%;
 
-    --card: 230 40% 11%;
+    --card: 220 39% 11%;               /* #111827 */
     --card-foreground: 210 40% 98%;
 
-    --popover: 230 40% 11%;
+    --popover: 220 39% 11%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 168 100% 48%;          /* cyan #00f5d4 */
-    --primary-foreground: 226 47% 7%;
+    --primary: 187 100% 42%;           /* medical cyan #00BCD4 */
+    --primary-foreground: 222 47% 5%;
 
-    --secondary: 252 100% 69%;        /* purple #7b61ff */
+    --secondary: 256 100% 65%;         /* AI purple #7C4DFF */
     --secondary-foreground: 210 40% 98%;
 
-    --muted: 230 30% 16%;
-    --muted-foreground: 220 15% 65%;
+    --muted: 220 30% 14%;
+    --muted-foreground: 220 13% 65%;
 
-    --accent: 168 100% 48%;
-    --accent-foreground: 226 47% 7%;
+    --accent: 187 100% 50%;            /* bright cyan #00E5FF */
+    --accent-foreground: 222 47% 5%;
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 100% 66%;         /* heart red #FF5252 */
     --destructive-foreground: 210 40% 98%;
 
-    --success: 145 80% 50%;
-    --success-foreground: 226 47% 7%;
+    --success: 151 84% 61%;            /* dna green #69F0AE */
+    --success-foreground: 222 47% 5%;
 
-    --border: 230 30% 20%;
-    --input: 230 30% 20%;
-    --ring: 168 100% 48%;
+    --warning: 45 100% 64%;            /* amber #FFD54F */
+
+    --border: 220 30% 18%;
+    --input: 220 30% 18%;
+    --ring: 187 100% 42%;
 
     --radius: 1rem;
 
-    /* Brand colors */
-    --cyan: 168 100% 48%;
-    --purple: 252 100% 69%;
-    --navy: 226 47% 7%;
-    --deep-purple: 273 82% 11%;
+    /* Brand colors (km.edu.uz template) */
+    --cyan: 187 100% 42%;              /* #00BCD4 */
+    --cyan-bright: 187 100% 50%;       /* #00E5FF */
+    --purple: 256 100% 65%;            /* #7C4DFF */
+    --purple-light: 261 100% 76%;      /* #B388FF */
+    --heart: 0 100% 66%;               /* #FF5252 */
+    --dna: 151 84% 61%;                /* #69F0AE */
+    --amber: 45 100% 64%;              /* #FFD54F */
+    --navy: 222 47% 5%;
+    --deep-purple: 220 39% 11%;
 
     /* Gradients */
-    --gradient-bg: radial-gradient(ellipse at top, hsl(273 82% 11%) 0%, hsl(226 47% 7%) 50%, hsl(226 50% 5%) 100%);
-    --gradient-text: linear-gradient(135deg, hsl(168 100% 48%) 0%, hsl(252 100% 69%) 100%);
-    --gradient-card: linear-gradient(135deg, hsla(230 40% 14% / 0.6) 0%, hsla(230 40% 9% / 0.4) 100%);
-    --gradient-glow: radial-gradient(circle at center, hsla(168 100% 48% / 0.4) 0%, transparent 70%);
-    --gradient-purple-glow: radial-gradient(circle at center, hsla(252 100% 69% / 0.35) 0%, transparent 70%);
-    --gradient-mesh: conic-gradient(from 180deg at 50% 50%, hsl(168 100% 48% / 0.15), hsl(252 100% 69% / 0.15), hsl(273 82% 30% / 0.15), hsl(168 100% 48% / 0.15));
+    --gradient-bg: linear-gradient(135deg, hsl(222 47% 4%) 0%, hsl(220 45% 7%) 50%, hsl(220 39% 9%) 100%);
+    --gradient-text: linear-gradient(135deg, hsl(187 100% 42%) 0%, hsl(187 100% 50%) 100%);
+    --gradient-ai: linear-gradient(135deg, hsl(256 100% 65%) 0%, hsl(261 100% 76%) 100%);
+    --gradient-heart: linear-gradient(135deg, hsl(0 100% 66%) 0%, hsl(7 100% 75%) 100%);
+    --gradient-card: linear-gradient(135deg, hsla(220 39% 14% / 0.55) 0%, hsla(220 39% 9% / 0.4) 100%);
+    --gradient-glow: radial-gradient(circle at center, hsla(187 100% 42% / 0.35) 0%, transparent 70%);
+    --gradient-purple-glow: radial-gradient(circle at center, hsla(256 100% 65% / 0.3) 0%, transparent 70%);
+    --gradient-mesh: conic-gradient(from 180deg at 50% 50%, hsl(187 100% 42% / 0.15), hsl(256 100% 65% / 0.15), hsl(0 100% 66% / 0.1), hsl(187 100% 42% / 0.15));
 
     /* Shadows */
-    --shadow-glow-cyan: 0 0 40px hsla(168 100% 48% / 0.4), 0 0 80px hsla(168 100% 48% / 0.2);
-    --shadow-glow-purple: 0 0 40px hsla(252 100% 69% / 0.4), 0 0 80px hsla(252 100% 69% / 0.2);
-    --shadow-card: 0 10px 40px -10px hsla(226 80% 5% / 0.6);
-    --shadow-elevated: 0 20px 60px -15px hsla(252 100% 50% / 0.3);
+    --shadow-glow-cyan: 0 0 40px hsla(187 100% 42% / 0.4), 0 0 80px hsla(187 100% 42% / 0.2);
+    --shadow-glow-purple: 0 0 40px hsla(256 100% 65% / 0.4), 0 0 80px hsla(256 100% 65% / 0.2);
+    --shadow-card: 0 10px 40px -10px hsla(222 80% 2% / 0.7);
+    --shadow-elevated: 0 20px 60px -15px hsla(256 100% 50% / 0.3);
 
     --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -76,8 +85,8 @@
     -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, h4 {
-    font-family: 'Space Grotesk', 'Inter', sans-serif;
-    letter-spacing: -0.02em;
+    font-family: 'Orbitron', 'Inter', sans-serif;
+    letter-spacing: -0.01em;
   }
 }
 
