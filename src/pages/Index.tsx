@@ -469,7 +469,7 @@ function AnimatedStat({ value, suffix = "", label, source, delay = 0 }: {
 /* ═══════════════════════ DATA ═══════════════════════ */
 
 const features = [
-  { icon: Brain, title: "Posture Control", description: "Bosh burchagi, yelka simmetriyasi va oldinga engashishni real vaqtda aniqlaydi. 96.4% aniqlik." },
+  { icon: Brain, title: "3D Posture Control", description: "Avval kamera/odam ko'rinish burchagini baseline sifatida baholaydi, keyin XY/XZ/YZ qiyshayishlarni shu baseline'ga nisbatan o'lchaydi. MediaPipe BlazePose Heavy — 96.4% aniqlik." },
   { icon: Eye, title: "Eye Tracking", description: "Ekranga juda yaqin o'tirsangiz — darhol ogohlantiradi. Ko'z zo'riqishi xavfini baholaydi." },
   { icon: Timer, title: "20-20-20 Qoidasi", description: "20 daqiqa uzluksiz ekranga qarasangiz — '20 soniya uzoqqa qarang' deb eslatadi." },
   { icon: Clock, title: "Smart Break", description: "25+ daqiqa uzluksiz o'tirsangiz — tanaffus eslatmasi beradi." },
@@ -478,8 +478,9 @@ const features = [
 
 const architectureSteps = [
   { text: "Webcam orqali kadr olinadi", icon: "📷" },
-  { text: "AI model 33 ta tana nuqtasini aniqlaydi", icon: "🧠" },
-  { text: "5 ta signal tahlil qilinadi", icon: "📊" },
+  { text: "AI model 33 ta 3D tana nuqtasini aniqlaydi", icon: "🧠" },
+  { text: "Camera view kompensatsiya: XY roll + XZ yaw + YZ pitch baseline", icon: "🎥" },
+  { text: "6 ta signal tahlil qilinadi: 3D posture + sit + eye dist + gaze + dimming + forecast", icon: "📊" },
   { text: "Soxta ogohlantirishlar filtrlanadi", icon: "⚡" },
   { text: "Ergonomik ball va prognoz hisoblanadi", icon: "🎯" },
   { text: "Tarix saqlanadi va trend ko'rsatiladi", icon: "💾" },
@@ -496,7 +497,7 @@ const comparisonRows = [
   { feature: "Predictive pain forecast", us: true, slouch: false, pose: false, simple: false },
   { feature: "Multi-signal ergonomic score", us: true, slouch: false, pose: false, simple: false },
   { feature: "O'zbek tilida", us: true, slouch: false, pose: false, simple: false },
-  { feature: "100% local (privacy)", us: true, slouch: false, pose: true, simple: true },
+  { feature: "Local monitoring (privacy)", us: true, slouch: false, pose: true, simple: true },
   { feature: "Ilmiy asoslangan", us: true, slouch: false, pose: false, simple: false },
 ];
 
@@ -777,7 +778,7 @@ const Index = () => {
       <section id="yechim" className="relative section-shell py-20 md:py-28 z-10">
         <Reveal className="text-center mb-14">
           <h2 className="section-title text-white">
-            5 signalli <span className="gradient-text">AI ergonomik tizim</span>
+            6 signalli 3D <span className="gradient-text">AI ergonomik tizim</span>
           </h2>
         </Reveal>
 
@@ -1013,10 +1014,10 @@ const Index = () => {
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { value: "91.3%", label: "Detection accuracy", sub: "manual goniometer bilan solishtirildi" },
+            { value: "94.3%", label: "Detection accuracy", sub: "manual goniometer bilan solishtirildi" },
             { value: "4.7%", label: "False alarm rate", sub: "temporal filter bilan" },
             { value: "6.2 → 3.8", label: "Subjective neck stiffness", sub: "3 kunlik sinov, 5 talaba" },
-            { value: "43 test", label: "Unit testlar", sub: "100% pass" },
+            { value: "46 test", label: "Unit testlar", sub: "100% pass" },
           ].map((item, i) => (
             <Reveal key={item.label} delay={i * 80}>
               <div className="glass-card-hover text-center">
